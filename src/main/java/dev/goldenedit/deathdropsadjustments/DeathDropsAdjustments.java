@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DeathDropsAdjustments extends JavaPlugin{
 
-    public static StateFlag NO_TREE_PEARL_FLAG;
+    public static IntegerFlag TOTEM_PICKUP_DELAY_FLAG;
 
     @Override
     public void onLoad() {
@@ -26,18 +26,18 @@ public final class DeathDropsAdjustments extends JavaPlugin{
     private void registerFlags() {
         FlagRegistry registry = com.sk89q.worldguard.WorldGuard.getInstance().getFlagRegistry();
         try {
-            // Create and register the custom flag for the no tree pearl flag
-            StateFlag flag = new StateFlag("no-tree-pearl", false);
+            // Create and register the custom flag for the totem pickup delay flag
+            IntegerFlag flag = new IntegerFlag("totem-pickup-delay");
             registry.register(flag);
-            NO_TREE_PEARL_FLAG = flag;
+            TOTEM_PICKUP_DELAY_FLAG = flag;
         } catch (FlagConflictException e) {
             // Handle case where the flag has already been registered
-            Flag<?> existing = registry.get("no-tree-pearl");
+            Flag<?> existing = registry.get("totem-pickup-delay");
             if (existing instanceof StateFlag) {
-                NO_TREE_PEARL_FLAG = (StateFlag) existing;
+                TOTEM_PICKUP_DELAY_FLAG = (IntegerFlag) existing;
             } else {
                 // Problem: the flag is already registered, but it's not an IntegerFlag
-                getLogger().severe("No Tree Pearl flag conflict: existing flag is not an IntegerFlag");
+                getLogger().severe("Totem pickup delay flag conflict: existing flag is not an IntegerFlag");
             }
         }
     }
