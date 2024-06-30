@@ -46,7 +46,7 @@ public class PlayerDeathListener implements Listener {
         ApplicableRegionSet regions = query.getApplicableRegions(weLocation);
         for (ProtectedRegion region : regions) {
             // Assuming TOTEM_PICKUP_DELAY_FLAG is a static reference to your custom flag
-            Integer value = region.getFlag(DeathDropsAdjustments.TOTEM_PICKUP_DELAY_FLAG);
+            Integer value = region.getFlag(TOTEM_PICKUP_DELAY_FLAG);
             if (value != null) {
                 delay = value; // Found a valid delay value
                 break; // Exit loop once a value is found
