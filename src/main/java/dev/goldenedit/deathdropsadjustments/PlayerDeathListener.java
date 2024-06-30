@@ -45,7 +45,6 @@ public class PlayerDeathListener implements Listener {
         Integer delay = null; // Initialize delay to null
         ApplicableRegionSet regions = query.getApplicableRegions(weLocation);
         for (ProtectedRegion region : regions) {
-            // Assuming TOTEM_PICKUP_DELAY_FLAG is a static reference to your custom flag
             Integer value = region.getFlag(TOTEM_PICKUP_DELAY_FLAG);
             if (value != null) {
                 delay = value; // Found a valid delay value
@@ -65,7 +64,7 @@ public class PlayerDeathListener implements Listener {
                     // Debug message to confirm this block is executed
 
                     // Adjust location if necessary, e.g., slightly lower the Y-coordinate
-                    Location particleLocation = location.clone().add(0, +1, 0); // Example adjustment
+                    Location particleLocation = location.clone().add(0, +1, 0);
 
                     BukkitTask particleTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                         particleLocation.getWorld().spawnParticle(Particle.TOTEM, location, 20, 0.01, 0.2, 0.01, 0);
