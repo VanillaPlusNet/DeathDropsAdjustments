@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class PlayerDeathListener implements Listener {
 
-    private JavaPlugin plugin;
+    private final JavaPlugin plugin;
     public static IntegerFlag TOTEM_PICKUP_DELAY_FLAG;
 
     public PlayerDeathListener(JavaPlugin plugin) {
@@ -42,7 +42,7 @@ public class PlayerDeathListener implements Listener {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
 
-        Integer delay = null; // Initialize delay to null
+        int delay = 0; // Initialize delay to null
         ApplicableRegionSet regions = query.getApplicableRegions(weLocation);
         for (ProtectedRegion region : regions) {
             Integer value = region.getFlag(TOTEM_PICKUP_DELAY_FLAG);
@@ -52,7 +52,7 @@ public class PlayerDeathListener implements Listener {
             }
         }
 
-        if (delay != null && delay > 0) {
+        if (delay > 0) {
             final int finalDelay = delay;
             event.getDrops().forEach(itemStack -> {
                 if (itemStack.getType().toString().contains("TOTEM")) {
@@ -66,9 +66,7 @@ public class PlayerDeathListener implements Listener {
                     // Adjust location if necessary, e.g., slightly lower the Y-coordinate
                     Location particleLocation = location.clone().add(0, +1, 0);
 
-                    BukkitTask particleTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                        particleLocation.getWorld().spawnParticle(Particle.TOTEM, location, 20, 0.01, 0.2, 0.01, 0);
-                    }, 0, 5); // Run this task now and then every second for a simple repeating effect
+                    BukkitTask particleTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> particleLocation.getWorld().spawnParticle(Particle.TOTEM, location, 20, 0.01, 0.2, 0.01, 0), 0, 5); // Run this task now and then every second for a simple repeating effect
 
                     // Drop the item after the delay and cancel the particle task
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -90,3 +88,4 @@ public class PlayerDeathListener implements Listener {
         event.getDrops().clear();
     }
 }
+
